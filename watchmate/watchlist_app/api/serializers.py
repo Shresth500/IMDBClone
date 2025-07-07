@@ -23,12 +23,11 @@ class WatchListSerializer(serializers.ModelSerializer):
         if len(value) < 2:
             raise serializers.ValidationError("Name is too short")
         return value
+    def create(self, validated_data):
+        platform_name = validated_data.pop('platform')['name']
+        platform = StreamPlatform.objects.get(name=platform_name)
+        return WatchList.objects.create(platform=platform, **validated_data)
     
-#     # object level validation
-    def validate(self,data):
-        if data['title'] == data['description']:
-            raise serializers.ValidationError("Title and Description should be different")
-        return data
 
 
 class StreamPlatFormSerializer(serializers.ModelSerializer):

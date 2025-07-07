@@ -90,19 +90,6 @@ class WatchListSerializerAV(generics.ListCreateAPIView):
     ordering_fields = ['avg_rating']
     pagination_class = WatchListPagination
 
-# class WatchListSerializerAV(APIView):
-#     permission_classes=[IsAdminOrReadOnly]
-#     def get(self,request):
-#         movie = WatchList.objects.all()
-#         serializer = WatchListSerializer(movie,many=True)
-#         return Response(serializer.data)
-    
-#     def post(self,request):
-#         serializer = WatchListSerializer(data = request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors)
 
 
 class WatchDetailsAV(APIView):
@@ -126,33 +113,3 @@ class StreamPlatFormVS(viewsets.ModelViewSet):
     permission_classes=[IsAdminOrReadOnly]
     serializer_class = StreamPlatFormSerializer
     queryset = StreamPlatform.objects.all()
-
-# class StreamerListAV(APIView):
-#     def get(self,request):
-#         streamer = StreamPlatform.objects.all()
-#         serializer = StreamPlatFormSerializer(streamer,many=True)
-#         return Response(serializer.data)
-    
-#     def post(self,request):
-#         serializer = StreamPlatFormSerializer(data = request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-    
-
-# class StreamerDetailsAV(APIView):
-#     def get(self,request,pk):
-#         streamer = StreamPlatform.objects.get(pk = pk)
-#         serializer = StreamPlatFormSerializer(streamer)
-#         return Response(serializer.data)
-    
-#     def put(self,request,pk):
-#         streamer = StreamPlatform.objects.get(pk = pk)
-#         serializer = StreamPlatFormSerializer(streamer,request.data)
-#         return Response(serializer.data)
-    
-#     def delete(self,request,pk):
-#         streamer = StreamPlatform.objects.get(pk = pk)
-#         streamer.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
