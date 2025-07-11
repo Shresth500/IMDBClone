@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from watchlist_app.models import WatchList,StreamPlatform,Review
+from watchlist_app.models import WatchList,StreamPlatform,Review,Actors,StarCast
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -14,6 +14,8 @@ class ReviewSerializer(serializers.ModelSerializer):
 class WatchListSerializer(serializers.ModelSerializer):
     #reviews = ReviewSerializer(many=True,read_only=True)
     platform = serializers.CharField(source='platform.name')
+    image = serializers.ImageField(use_url=True)
+    
     class Meta:
         model = WatchList
         fields = '__all__'
@@ -32,43 +34,42 @@ class WatchListSerializer(serializers.ModelSerializer):
 
 class StreamPlatFormSerializer(serializers.ModelSerializer):
     watchlist = WatchListSerializer(many=True,read_only=True)
+    image = serializers.ImageField(use_url=True)
+    
     class Meta:
         model = StreamPlatform
         fields = '__all__'
 
 
-# USING serializers.Serializer
-# using validators
-# def name_length(value):
-#     if len(value) < 2:
-#         raise serializers.ValidationError("Name is too short")
-#     return value
+class ActorSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Actors
+        fields = '__all__'
 
-# class MovieSerializer(serializers.Serializer):
-#     id = serializers.IntegerField(read_only = True)
-#     name = serializers.CharField(validators = [name_length])
-#     description = serializers.CharField()
-#     active = serializers.BooleanField()
+
+class StarCastSerailizer(serializers.ModelSerializer):
+    actors = ActorSerializer(read_only=True)
+    # watchlist = WatchListSerializer(read_only=True)
+    watchlist = serializers.CharField(source='watchlist.title')
     
+    class Meta:
+        model = StarCast
+        fields = '__all__'
+        
+class ActorDetailSerializer(serializers.ModelSerializer):
+    watchlist = serializers.CharField(source='watchlist.title')
+    watchlist_image = serializers.ImageField(source='watchlist.image',use_url=True)
     
-#     def create(self,validated_data):
-#         return Movie.objects.create(**validated_data)
+    class Meta:
+        model = StarCast
+        fields = '__all__'
+        
+
+class StarCastListSerailizer(serializers.ModelSerializer):
+    actors = serializers.CharField(source='actors.name')
+    actors_image = serializers.ImageField(source='actors.image',use_url=True)
     
-#     def update(self,instance,validated_data):
-#         instance.name = validated_data.get('name',instance.name)
-#         instance.description = validated_data.get('description',instance.description)
-#         instance.active = validated_data.get('active',instance.active)
-#         instance.save()
-#         return instance
-    
-#     # field level validation
-#     # def validate_name(self,value):
-#     #     if len(value) < 2:
-#     #         raise serializers.ValidationError("Name is too short")
-#     #     return value
-    
-#     # object level validation
-#     def validate(self,data):
-#         if data['title'] == data['description']:
-#             raise serializers.ValidationError("Title and Description should be different")
-#         return data
+    class Meta:
+        model = StarCast
+        fields = '__all__'

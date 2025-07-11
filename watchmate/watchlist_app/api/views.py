@@ -8,12 +8,12 @@ from rest_framework import mixins, generics,viewsets
 from rest_framework.throttling import UserRateThrottle,AnonRateThrottle
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
+from rest_framework.parsers import MultiPartParser, FormParser
+from django.shortcuts import get_object_or_404
 
 
-
-
-from watchlist_app.api.serializers import WatchListSerializer, StreamPlatFormSerializer,ReviewSerializer
-from watchlist_app.models import WatchList,StreamPlatform,Review
+from watchlist_app.api.serializers import ActorDetailSerializer, ActorSerializer, StarCastListSerailizer, WatchListSerializer, StreamPlatFormSerializer,ReviewSerializer,StarCastSerailizer
+from watchlist_app.models import Actors, StarCast, WatchList,StreamPlatform,Review,Actors
 from watchlist_app.api.permissions import IsAdminOrReadOnly,ReviewUserOrReadOnly
 from watchlist_app.api.throttling import ReviewCreateThrottle, ReviewListThrottling
 from watchlist_app.api.pagination import WatchListPagination
@@ -85,6 +85,7 @@ class WatchListSerializerAV(generics.ListCreateAPIView):
     queryset = WatchList.objects.all()
     serializer_class = WatchListSerializer
     permission_classes=[IsAdminOrReadOnly]
+    parser_classes = (MultiPartParser, FormParser)
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
     filterset_fields = ['title', 'platform__name','avg_rating']
     ordering_fields = ['avg_rating']
@@ -95,9 +96,14 @@ class WatchListSerializerAV(generics.ListCreateAPIView):
 class WatchDetailsAV(APIView):
     permission_classes=[IsAdminOrReadOnly]
     def get(self,request,pk):
-        movie = WatchList.objects.get(pk = pk)
+        movie = movie = get_object_or_404(WatchList, pk=pk)
         serializer = WatchListSerializer(movie)
-        return Response(serializer.data)
+        starcast_qs = StarCast.objects.filter(watchlist=movie)
+        starcast_list = StarCastListSerailizer(starcast_qs,many=True, context={'request': request}).data
+        return Response({
+            'movie':serializer.data,
+            'starcast':starcast_list
+        })
     
     def put(self,request,pk):
         movie = WatchList.objects.get(pk = pk)
@@ -113,3 +119,36 @@ class StreamPlatFormVS(viewsets.ModelViewSet):
     permission_classes=[IsAdminOrReadOnly]
     serializer_class = StreamPlatFormSerializer
     queryset = StreamPlatform.objects.all()
+    parser_classes = (MultiPartParser, FormParser)
+
+
+class ActorsList(generics.ListCreateAPIView):
+    serializer_class = ActorSerializer
+    parser_classes = (MultiPartParser, FormParser)
+    filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
+    filterset_fields = ['age','DateOfBirth']
+    ordering_fields = ['age','DateOfBirth']
+    pagination_class = WatchListPagination
+        
+    def get_queryset(self):
+        return Actors.objects.all()
+    
+class ActorDetails(generics.RetrieveAPIView):
+
+    serializer_class = ActorSerializer  # Not strictly needed anymore
+    lookup_field = 'pk'
+
+    def get(self, request, pk, *args, **kwargs):
+        actor = get_object_or_404(Actors, pk=pk)
+        actor_data = ActorSerializer(actor, context={'request': request}).data
+        
+        starcast_qs = StarCast.objects.filter(actors=actor)
+        movie_data = ActorDetailSerializer(starcast_qs, many=True, context={'request': request}).data
+        
+        return Response({
+            "actor": actor_data,
+            "movies": movie_data
+        })
+    
+
+    
