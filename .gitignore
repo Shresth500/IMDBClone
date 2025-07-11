@@ -1,0 +1,42 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/IMDB-WebApp/dist
+/IMDB-WebApp/tmp
+/IMDB-WebApp/out-tsc
+/IMDB-WebApp/bazel-out
+
+# Node
+/IMDB-WebApp/node_modules
+/IMDB-WebApp/npm-debug.log
+/IMDB-WebApp/yarn-error.log
+
+# IDEs and editors
+/IMDB-WebApp/.idea/
+/IMDB-WebApp/.project
+/IMDB-WebApp/.classpath
+/IMDB-WebApp/.c9/
+/IMDB-WebApp/*.launch
+/IMDB-WebApp/.settings/
+/IMDB-WebApp/*.sublime-workspace
+
+# Visual Studio Code
+/IMDB-WebApp/.vscode/*
+/IMDB-WebApp/!.vscode/settings.json
+/IMDB-WebApp/!.vscode/tasks.json
+/IMDB-WebApp/!.vscode/launch.json
+/IMDB-WebApp/!.vscode/extensions.json
+/IMDB-WebApp/.history/*
+
+# Miscellaneous
+/IMDB-WebApp/.angular/cache
+/IMDB-WebApp/.sass-cache/
+/IMDB-WebApp/connect.lock
+/IMDB-WebApp/coverage
+/IMDB-WebApp/libpeerconnection.log
+/IMDB-WebApp/testem.log
+/IMDB-WebApp/typings
+
+# System files
+/IMDB-WebApp/.DS_Store
+/IMDB-WebApp/Thumbs.db
