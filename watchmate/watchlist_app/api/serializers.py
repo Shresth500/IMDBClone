@@ -12,23 +12,33 @@ class ReviewSerializer(serializers.ModelSerializer):
     
 
 class WatchListSerializer(serializers.ModelSerializer):
-    #reviews = ReviewSerializer(many=True,read_only=True)
     platform = serializers.CharField(source='platform.name')
-    image = serializers.ImageField(use_url=True)
-    
+    image = serializers.ImageField(use_url=True,read_only=True)
+    actor_ids = serializers.ListField(
+        child=serializers.IntegerField(), write_only=True, required=False
+    )
     class Meta:
         model = WatchList
         fields = '__all__'
-        
-    # field level validation
-    def validate_name(self,value):
-        if len(value) < 2:
-            raise serializers.ValidationError("Name is too short")
-        return value
+        extra_fields = ['actor_ids']
+
+    
     def create(self, validated_data):
         platform_name = validated_data.pop('platform')['name']
         platform = StreamPlatform.objects.get(name=platform_name)
-        return WatchList.objects.create(platform=platform, **validated_data)
+
+        actor_ids = validated_data.pop('actor_ids', [])
+        watchlist = WatchList.objects.create(platform=platform, **validated_data)
+
+        for actor_id in actor_ids:
+            try:
+                actor = Actors.objects.get(id=actor_id)
+                StarCast.objects.create(actors=actor, watchlist=watchlist)
+            except Actors.DoesNotExist:
+                raise serializers.ValidationError(f"Actor with id {actor_id} does not exist")
+
+
+        return watchlist
     
 
 
@@ -50,7 +60,6 @@ class ActorSerializer(serializers.ModelSerializer):
 
 class StarCastSerailizer(serializers.ModelSerializer):
     actors = ActorSerializer(read_only=True)
-    # watchlist = WatchListSerializer(read_only=True)
     watchlist = serializers.CharField(source='watchlist.title')
     
     class Meta:

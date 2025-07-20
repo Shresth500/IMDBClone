@@ -8,6 +8,7 @@ class Actors(models.Model):
     age = models.IntegerField(validators=[MinValueValidator(5)])
     image = models.ImageField(upload_to='actors_images/',null=True,blank=True)
     DateOfBirth = models.DateField()
+    description = models.TextField(max_length=500)
     
     def __str__(self):
         return self.name

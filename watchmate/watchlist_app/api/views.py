@@ -10,6 +10,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.shortcuts import get_object_or_404
+from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 
 
 from watchlist_app.api.serializers import ActorDetailSerializer, ActorSerializer, StarCastListSerailizer, WatchListSerializer, StreamPlatFormSerializer,ReviewSerializer,StarCastSerailizer
@@ -85,7 +86,7 @@ class WatchListSerializerAV(generics.ListCreateAPIView):
     queryset = WatchList.objects.all()
     serializer_class = WatchListSerializer
     permission_classes=[IsAdminOrReadOnly]
-    parser_classes = (MultiPartParser, FormParser)
+    parser_classes = ( MultiPartParser, FormParser,JSONParser)
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
     filterset_fields = ['title', 'platform__name','avg_rating']
     ordering_fields = ['avg_rating']
@@ -97,7 +98,7 @@ class WatchDetailsAV(APIView):
     permission_classes=[IsAdminOrReadOnly]
     def get(self,request,pk):
         movie = movie = get_object_or_404(WatchList, pk=pk)
-        serializer = WatchListSerializer(movie)
+        serializer = WatchListSerializer(movie, context={'request':request})
         starcast_qs = StarCast.objects.filter(watchlist=movie)
         starcast_list = StarCastListSerailizer(starcast_qs,many=True, context={'request': request}).data
         return Response({
@@ -126,8 +127,8 @@ class ActorsList(generics.ListCreateAPIView):
     serializer_class = ActorSerializer
     parser_classes = (MultiPartParser, FormParser)
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
-    filterset_fields = ['age','DateOfBirth']
-    ordering_fields = ['age','DateOfBirth']
+    filterset_fields = ['age','name']
+    ordering_fields = ['age']
     pagination_class = WatchListPagination
         
     def get_queryset(self):
