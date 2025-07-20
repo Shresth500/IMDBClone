@@ -1,0 +1,37 @@
+.movie-card {
+  position: relative;
+  transition: box-shadow 0.3s ease;
+
+  .movie-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  button {
+    margin-top: 10px;
+    display: inline-block;
+  }
+}
+
+.example-card {
+  max-width: 500px;
+  margin-bottom: 8px;
+  min-height: 425px;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 0;
+  height: 100%;
+  width: 100%;
+}
+
+.movie-image {
+  width: 100%;
+  //max-width: 200px; // adjust as needed
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}

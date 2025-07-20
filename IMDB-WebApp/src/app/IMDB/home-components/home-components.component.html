@@ -1,0 +1,26 @@
+<div class="box">
+  <nav class="flex-container">
+    <div class="left-nav-group">
+      <h1 class="color-blue mr-3">IMDB</h1>
+      <div class="nav-links">
+        <a
+          routerLink="/"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: false }"
+        >
+          Movies & Webseries
+        </a>
+        <a routerLink="/actors" routerLinkActive="active-link">Actors</a>
+      </div>
+    </div>
+
+    <button class="btn btn-danger left-alignment">
+      <i class="fa-solid fa-right-from-bracket"></i>
+      Logout
+    </button>
+  </nav>
+
+  <div class="m-3 product-container">
+    <router-outlet></router-outlet>
+  </div>
+</div>

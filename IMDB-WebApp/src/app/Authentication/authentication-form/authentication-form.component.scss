@@ -1,0 +1,99 @@
+h2 {
+  color: blue;
+}
+
+.content {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #666;
+
+  a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+}
+
+.no-border {
+  color: #007bff;
+  border: none;
+  padding: 0;
+  background: transparent;
+  outline: none;
+}
+.help-block {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.text-danger {
+  color: red;
+}
+
+.login-card {
+  max-height: 600px;
+  width: 550px;
+  margin: 20px auto;
+  padding: 30px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(to bottom right, #ffffff, #f0f4ff);
+  transition: transform 0.3s ease-in-out;
+}
+
+.register-card {
+  max-height: 600px;
+  width: 550px;
+  margin: 20px auto;
+  padding: 30px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(to bottom right, #ffffff, #f0f4ff);
+  transition: transform 0.3s ease-in-out;
+}
+
+.login-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25);
+}
+
+.register-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25);
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+mat-form-field {
+  background-color: #f2f7ff;
+  border-radius: 8px;
+  padding: 4px 12px;
+  transition: box-shadow 0.3s;
+}
+
+mat-form-field:hover {
+  box-shadow: 0 0 8px rgba(100, 149, 237, 0.4);
+}
+
+mat-form-field.mat-focused {
+  box-shadow: 0 0 10px rgba(65, 105, 225, 0.6);
+}
+
+button {
+  width: 100%;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 8px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background-color: #1976d2;
+  transform: translateY(-2px);
+}

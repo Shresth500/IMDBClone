@@ -1,0 +1,87 @@
+<div *ngIf="movieDetails$ | async as movie" class="details-container">
+  <div class="movie-content">
+    <!-- Left Side -->
+    <div class="details-left">
+      <h2>{{ movie.movie.title }}</h2>
+      <p><strong>Rating:</strong></p>
+      <div class="stars" [style.--rating-percent]="starPercentage"></div>
+
+      <p><strong>Created At:</strong> {{ movie.movie.created | date }}</p>
+
+      <p><strong>Description:</strong></p>
+      <p>{{ movie.movie.storyLine }}</p>
+    </div>
+
+    <!-- Right Side -->
+    <div class="details-right">
+      <img [src]="movie.movie.image" alt="{{ movie.movie.title }}" />
+    </div>
+  </div>
+
+  <!-- Starcast Section -->
+  <div class="actors-section">
+    <h3>Starcast</h3>
+    <div class="image-list-container">
+      <div class="image-item" *ngFor="let item of movie.starcast">
+        <img [src]="item.actors_image" [alt]="item.actors" />
+        <div class="image-name">{{ item.actors }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Post Review Form -->
+<div class="post-review">
+  <h3>Reviews</h3>
+  <h4>Post a Review</h4>
+  <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+    <label for="rating">Rating</label>
+    <select formControlName="rating" id="rating">
+      <option *ngFor="let star of [1, 2, 3, 4, 5]" [value]="star">
+        {{ star }}
+      </option>
+    </select>
+
+    <label for="description">Comment</label>
+    <textarea
+      id="description"
+      rows="4"
+      placeholder="Write your review..."
+      formControlName="description"
+    ></textarea>
+
+    <button type="submit" [disabled]="reviewForm.invalid">Submit</button>
+  </form>
+  <div class="review-section" *ngIf="reviews.length">
+    <div class="review-card" *ngFor="let review of reviews">
+      <div class="review-header">
+        <strong>{{ review.review_user }}</strong>
+        <span class="review-stars">
+          <span
+            class="stars"
+            [style.--rating-percent]="(review.rating / 5) * 100 + '%'"
+          ></span>
+        </span>
+      </div>
+      <p class="review-date">{{ review.created | date : "mediumDate" }}</p>
+      <p class="review-text">{{ review.description }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="review-section" *ngIf="reviews.length">
+  <h3>Reviews</h3>
+  <div class="review-card" *ngFor="let review of reviews">
+    <div class="review-header">
+      <strong>{{ review.review_user }}</strong>
+      <span class="review-stars">
+        <span
+          class="stars"
+          [style.--rating-percent]="(review.rating / 5) * 100 + '%'"
+        ></span>
+      </span>
+    </div>
+    <p class="review-date">{{ review.created | date : "mediumDate" }}</p>
+    <p class="review-text">{{ review.description }}</p>
+  </div>
+</div> -->

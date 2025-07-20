@@ -1,1 +1,119 @@
-<p>authentication-form works!</p>
+<mat-card class="login-card" *ngIf="isLogged">
+  <h2 class="color-blue">Login</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Username</mat-label>
+      <input matInput type="email" formControlName="username" required />
+      <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
+        Email is required
+      </mat-error>
+      <mat-error *ngIf="loginForm.get('username')?.hasError('username')">
+        Enter a valid username
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        [type]="hide() ? 'password' : 'text'"
+        formControlName="password"
+        required
+      />
+
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="clickEvent($event)"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide()"
+      >
+        <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+      <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+        Password is required
+      </mat-error>
+    </mat-form-field>
+
+    <div>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="loginForm.invalid"
+      >
+        Login
+      </button>
+      <p class="content">
+        Create an account? <a routerLink="/auth/register">Register</a>
+      </p>
+    </div>
+  </form>
+</mat-card>
+
+<mat-card class="register-card" *ngIf="!isLogged">
+  <h2 class="color-blue">Register</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" required />
+      <mat-error *ngIf="registerForm.get('email')?.hasError('required')">
+        Email is required
+      </mat-error>
+      <mat-error *ngIf="registerForm.get('email')?.hasError('email')">
+        Enter a valid email
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Username</mat-label>
+      <input matInput type="text" formControlName="username" required />
+      <mat-error *ngIf="registerForm.get('username')?.hasError('required')">
+        Username is required
+      </mat-error>
+      <mat-error *ngIf="registerForm.get('email')?.hasError('email')">
+        Enter a valid username
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        [type]="hide() ? 'password' : 'text'"
+        formControlName="password"
+        required
+      />
+
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="clickEvent($event)"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide()"
+      >
+        <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+      <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
+        Password is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- <div>
+      {{ registerForm.invalid }}
+    </div> -->
+    <div>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="registerForm.invalid"
+      >
+        Register
+      </button>
+      <p class="content">
+        Already have an account? <a routerLink="/auth/login">Login</a>
+      </p>
+    </div>
+  </form>
+</mat-card>

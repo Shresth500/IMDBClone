@@ -1,0 +1,22 @@
+<mat-card class="example-card" appearance="outlined">
+  <mat-card-header>
+    <mat-card-title-group>
+      <div class="image-container">
+        <img
+          src="{{ movie.image }}"
+          alt="{{ movie.title }}"
+          class="movie-image"
+        />
+      </div>
+    </mat-card-title-group>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-card-title>{{ movie.title }}</mat-card-title>
+    <mat-card-subtitle>Date - {{ movie.created | date }}</mat-card-subtitle>
+    <p class="movie-description">
+      {{ getShortDescription(movie.storyLine, 10) }}
+    </p>
+
+    <button mat-button color="primary" (click)="onKnowMore()">Know more</button>
+  </mat-card-content>
+</mat-card>

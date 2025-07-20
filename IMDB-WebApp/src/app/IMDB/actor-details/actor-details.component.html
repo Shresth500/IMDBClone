@@ -1,0 +1,27 @@
+<div *ngIf="actorDetails$ | async as Actor" class="details-container">
+  <div class="movie-content">
+    <div class="details-left">
+      <h2>{{ Actor.actor.name }}</h2>
+
+      <p>
+        <strong>Date of Birth:</strong> {{ Actor.actor.DateOfBirth | date }}
+      </p>
+
+      <p><strong>Description:</strong></p>
+      <p>{{ Actor.actor.description }}</p>
+    </div>
+    <div class="details-right">
+      <img [src]="Actor.actor.image" alt="{{ Actor.actor.name }}" />
+    </div>
+  </div>
+
+  <div class="actors-section">
+    <h3>Movies and WebSeries</h3>
+    <div class="image-list-container">
+      <div class="image-item" *ngFor="let item of Actor.movies">
+        <img [src]="item.watchlist_image" [alt]="item.watchlist" />
+        <div class="image-name">{{ item.watchlist }}</div>
+      </div>
+    </div>
+  </div>
+</div>
