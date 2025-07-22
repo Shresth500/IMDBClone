@@ -38,8 +38,6 @@ class ReviewCreate(generics.CreateAPIView):
         
         review_user = self.request.user
         
-        print(review_user)
-        
         review_queryset = Review.objects.filter(watchlist=watchlist,review_user=review_user)
         
         if review_queryset.exists():

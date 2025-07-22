@@ -111,7 +111,6 @@ export class MovieListComponent implements OnInit {
           : queryparams.order === '-avg_rating'
           ? 'desc'
           : 'none';
-      console.log(queryparams);
       this.movieStore.dispatch(
         MovieListAction.appendMovieListAction({ queryParams: queryparams })
       );

@@ -33,8 +33,24 @@
 <!-- Post Review Form -->
 <div class="post-review">
   <h3>Reviews</h3>
-  <h4>Post a Review</h4>
-  <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+  <div>
+    <div class="nav-links">
+      <a routerLink="/auth/login">
+        <button
+          class="btn btn-primary left-alignment"
+          *ngIf="!isAuthenticated()"
+        >
+          <i class="fa-solid fa-right-to-bracket"></i> LogIn
+        </button>
+      </a>
+    </div>
+  </div>
+  <h4 *ngIf="isAuthenticated()">Post a Review</h4>
+  <form
+    [formGroup]="reviewForm"
+    (ngSubmit)="submitReview()"
+    *ngIf="isAuthenticated()"
+  >
     <label for="rating">Rating</label>
     <select formControlName="rating" id="rating">
       <option *ngFor="let star of [1, 2, 3, 4, 5]" [value]="star">
@@ -52,8 +68,9 @@
 
     <button type="submit" [disabled]="reviewForm.invalid">Submit</button>
   </form>
-  <div class="review-section" *ngIf="reviews.length">
-    <div class="review-card" *ngFor="let review of reviews">
+  <div class="review-section" *ngIf="isAuthenticated() && reviews.length">
+    @for(review of (movieReviewList$ | async);track $index;let i = $index){
+    <div class="review-card">
       <div class="review-header">
         <strong>{{ review.review_user }}</strong>
         <span class="review-stars">
@@ -66,6 +83,7 @@
       <p class="review-date">{{ review.created | date : "mediumDate" }}</p>
       <p class="review-text">{{ review.description }}</p>
     </div>
+    }
   </div>
 </div>
 

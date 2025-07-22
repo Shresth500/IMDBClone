@@ -7,6 +7,7 @@ import {
   IMovieInfo,
   IParams,
 } from '../../Common/Model/Movies';
+import { IAddReview, IReviewDetail } from '../../Common/Model/Reviews';
 
 @Injectable({
   providedIn: 'root',
@@ -22,11 +23,27 @@ export class MovieServiceService {
       .set('platform_name', queryparams.platform_name)
       .set('ordering', queryparams.order)
       .set('size', queryparams.size);
-    return this.http.get<IMovie>(`${this.apiUrl}/list/`, { params });
+    return this.http.get<IMovie>(`${this.apiUrl}/list/`, {
+      params,
+      headers: { skip: 'true' },
+    });
   }
 
   getMovieById(id: number): Observable<IMovieDetails> {
     // const params = new HttpParams().set('id', id);
-    return this.http.get<IMovieDetails>(`${this.apiUrl}/${id}/`);
+    return this.http.get<IMovieDetails>(`${this.apiUrl}/${id}/`, {
+      headers: { skip: 'true' },
+    });
+  }
+
+  getMovieReviews(id: number): Observable<IReviewDetail[]> {
+    return this.http.get<IReviewDetail[]>(`${this.apiUrl}/${id}/review/`);
+  }
+
+  addMovieReview(review: IAddReview, id: number): Observable<IReviewDetail> {
+    return this.http.post<IReviewDetail>(
+      `${this.apiUrl}/${id}/review-create/`,
+      review
+    );
   }
 }

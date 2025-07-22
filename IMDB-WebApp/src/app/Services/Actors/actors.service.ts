@@ -21,10 +21,15 @@ export class ActorsService {
       .set('page', params.page)
       .set('size', params.size)
       .set('name', params.name);
-    return this.http.get<IActorList>(`${this.apiUrl}`, { params: queryparams });
+    return this.http.get<IActorList>(`${this.apiUrl}`, {
+      params: queryparams,
+      headers: { skip: 'true' },
+    });
   }
 
   getActorDetails(id: number): Observable<IActorDetails> {
-    return this.http.get<IActorDetails>(`${this.apiUrl}` + id);
+    return this.http.get<IActorDetails>(`${this.apiUrl}` + id, {
+      headers: { skip: 'true' },
+    });
   }
 }

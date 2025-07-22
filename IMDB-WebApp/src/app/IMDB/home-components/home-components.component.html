@@ -6,15 +6,30 @@
         <a
           routerLink="/"
           routerLinkActive="active-link"
-          [routerLinkActiveOptions]="{ exact: false }"
+          [routerLinkActiveOptions]="{ exact: true }"
         >
           Movies & Webseries
         </a>
-        <a routerLink="/actors" routerLinkActive="active-link">Actors</a>
+        <a
+          routerLink="/actors"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Actors</a
+        >
       </div>
     </div>
-
-    <button class="btn btn-danger left-alignment">
+    <div class="nav-links">
+      <a routerLink="/auth/login">
+        <button class="btn btn-primary left-alignment" *ngIf="!isAuthorized()">
+          <i class="fa-solid fa-right-to-bracket"></i> LogIn
+        </button>
+      </a>
+    </div>
+    <button
+      class="btn btn-danger left-alignment"
+      (click)="LogOut()"
+      *ngIf="isAuthorized()"
+    >
       <i class="fa-solid fa-right-from-bracket"></i>
       Logout
     </button>
