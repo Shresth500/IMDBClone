@@ -56,3 +56,23 @@ class Review(models.Model):
     
     def __str__(self):
         return str(self.rating) + " " + self.watchlist.title
+    
+class ImageList(models.Model):
+    watchlist = models.ForeignKey(WatchList,on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='watchlist_images/otherImages/', null=True, blank=True)
+
+    def __str__(self):
+        return self.watchlist.title + ' - ' + self.image.name
+
+class Genre(models.Model):
+    type = models.CharField(max_length=15)
+    
+    def __str__(self):
+        return self.type
+
+class Tags(models.Model):
+    watchlist = models.ForeignKey(WatchList,on_delete=models.CASCADE,related_name='tags')
+    genre = models.ForeignKey(Genre,on_delete=models.CASCADE) 
+    
+    def __str__(self):
+        return self.watchlist.title + ' ' + self.genre.type

@@ -146,6 +146,7 @@ export class MovieListComponent implements OnInit {
 
   ngOnInit(): void {}
   onSearch() {
+    this.page = 1;
     this.updateQueryParamsInUrl();
   }
   clearSearch() {

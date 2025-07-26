@@ -1,5 +1,5 @@
 from django.contrib import admin
-from watchlist_app.models import WatchList,StreamPlatform, Review,Actors,StarCast
+from watchlist_app.models import WatchList,StreamPlatform, Review,Actors,StarCast,ImageList,Genre,Tags
 from django.utils.html import format_html
 # Register your models here.
 
@@ -18,3 +18,6 @@ admin.site.register(StreamPlatform, StreamPlatformAdmin)
 admin.site.register(Review)
 admin.site.register(Actors)
 admin.site.register(StarCast)
+admin.site.register(ImageList)
+admin.site.register(Genre)
+admin.site.register(Tags)

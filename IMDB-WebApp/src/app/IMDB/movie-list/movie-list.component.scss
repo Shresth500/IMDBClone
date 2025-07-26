@@ -11,8 +11,11 @@
 }
 
 .background-color-light-blue {
-  background-color: rgb(202, 229, 235);
+  background-color: rgb(215, 227, 230);
   padding: 10px;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.9;
 }
 
 .example-card-box > div {
